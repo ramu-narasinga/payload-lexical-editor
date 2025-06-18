@@ -25,8 +25,13 @@ export default buildConfig({
   collections: [Users, Media, Posts],
   editor: lexicalEditor({
     features: ({defaultFeatures}) => {
+
+      console.log("defaultFeatures",defaultFeatures)
+
+      const removeFeatures = ["subscript", "superscript"]
+
       return [
-        ...defaultFeatures,
+        ...defaultFeatures.filter((feature) => !removeFeatures.includes(feature.key)),
         MarkFeature()
       ]
     }
