@@ -15,13 +15,14 @@ const toolbarGroups: ToolbarGroup[] = [
       ChildComponent: MarkIcon,
       isActive: ({ selection }) => {
         if ($isRangeSelection(selection) || $isTableSelection(selection)) {
-          return selection.hasFormat('underline')
+          return selection.hasFormat('highlight')
         }
         return false
       },
-      key: 'mark',
+      key: 'highlight',
       onSelect: ({ editor }) => {
-        editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'underline')
+        console.log("dispatching highlight command")
+        editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'highlight')
       },
       order: 5,
     },
@@ -30,7 +31,7 @@ const toolbarGroups: ToolbarGroup[] = [
 
 // Inspired by https://github.com/Adoosko/multi-ecom/blob/95c70f7f50710c0f26109ad0f93173f2836dd501/src/features/fontColor/feature.client.ts
 export default createClientFeature({
-  enableFormats: ['underline'],
+  enableFormats: ['highlight'],
   toolbarFixed: {
     groups: toolbarGroups,
   },

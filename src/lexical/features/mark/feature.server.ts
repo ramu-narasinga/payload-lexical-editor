@@ -5,5 +5,5 @@ export const MarkFeature = createServerFeature({
   feature: {
     ClientFeature: '@/lexical/features/mark/feature.client',
   },
-  key: 'mark',
+  key: 'highlight',
 })
