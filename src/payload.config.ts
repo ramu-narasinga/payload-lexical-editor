@@ -11,6 +11,7 @@ import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Posts } from './collections/Posts'  
 import { MarkFeature } from './lexical/features/mark/feature.server'
+import { FootnoteFeature } from './lexical/features/footnote/feature.server'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -26,13 +27,14 @@ export default buildConfig({
   editor: lexicalEditor({
     features: ({defaultFeatures}) => {
 
-      console.log("defaultFeatures",defaultFeatures)
+      // console.log("defaultFeatures",defaultFeatures)
 
       const removeFeatures = ["subscript", "superscript"]
 
       return [
         ...defaultFeatures.filter((feature) => !removeFeatures.includes(feature.key)),
-        MarkFeature()
+        MarkFeature(),
+        FootnoteFeature()
       ]
     }
   }),
