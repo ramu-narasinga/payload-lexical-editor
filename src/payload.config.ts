@@ -6,17 +6,28 @@ import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
+import { build as buildLogger } from "pino-pretty";
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Posts } from './collections/Posts'  
 import { MarkFeature } from './lexical/features/mark/feature.server'
-import { FootnoteFeature } from './lexical/features/footnote/feature.server'
+import { FootnoteFeature } from './lexical/features/footnote/server'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
+  logger: {
+    options: {
+      level: "debug",
+    },
+    destination: buildLogger({
+      colorize: true,
+      ignore: "pid,hostname",
+      translateTime: "SYS:HH:MM:ss",
+    }),
+  },
   admin: {
     user: Users.slug,
     importMap: {
