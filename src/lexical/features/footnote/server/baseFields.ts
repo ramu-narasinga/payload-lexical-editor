@@ -65,34 +65,34 @@ export const getBaseFields = (
     //   ],
     //   required: true,
     // } as RadioField,
-    {
-      name: 'url',
-      type: 'text',
-      hooks: {
-        beforeChange: [
-          ({ value }) => {
-            if (!value) {
-              return
-            }
+    // {
+    //   name: 'url',
+    //   type: 'text',
+    //   hooks: {
+    //     beforeChange: [
+    //       ({ value }) => {
+    //         if (!value) {
+    //           return
+    //         }
 
-            if (!validateUrl(value)) {
-              return encodeURIComponent(value)
-            }
-            return value
-          },
-        ],
-      },
-      label: "Content",
-      required: true,
-      validate: ((value: string, options) => {
-        if ((options?.siblingData as LinkFields)?.linkType === 'internal') {
-          return // no validation needed, as no url should exist for internal links
-        }
-        if (!validateUrlMinimal(value)) {
-          return 'Invalid URL'
-        }
-      }) as TextFieldSingleValidation,
-    },
+    //         if (!validateUrl(value)) {
+    //           return encodeURIComponent(value)
+    //         }
+    //         return value
+    //       },
+    //     ],
+    //   },
+    //   label: "Content",
+    //   required: true,
+    //   validate: ((value: string, options) => {
+    //     if ((options?.siblingData as LinkFields)?.linkType === 'internal') {
+    //       return // no validation needed, as no url should exist for internal links
+    //     }
+    //     if (!validateUrlMinimal(value)) {
+    //       return 'Invalid URL'
+    //     }
+    //   }) as TextFieldSingleValidation,
+    // },
   ]
 
   // Only display internal link-specific fields / options / conditions if there are enabled relations
