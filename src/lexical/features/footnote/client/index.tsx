@@ -3,7 +3,7 @@
 import type { Klass, LexicalNode } from 'lexical'
 
 import { $findMatchingParent } from '@lexical/utils'
-import { $getSelection, $isRangeSelection } from 'lexical'
+import { $getSelection, $isRangeSelection, FORMAT_TEXT_COMMAND } from 'lexical'
 
 import type { LinkFields } from '../nodes/types'
 import { LinkMarkdownTransformer } from '../markdownTransformer'
@@ -62,6 +62,8 @@ const toolbarGroups: ToolbarGroup[] = [
           const linkFields: Partial<LinkFields> = {
             doc: null,
           }
+
+          editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'superscript')
 
           editor.dispatchCommand(TOGGLE_LINK_WITH_MODAL_COMMAND, {
             fields: linkFields,
