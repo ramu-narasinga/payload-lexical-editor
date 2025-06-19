@@ -58,6 +58,7 @@ export function LinkEditor({ anchorElem }: { anchorElem: HTMLElement }): React.R
   const editorRef = useRef<HTMLDivElement | null>(null)
   const [linkUrl, setLinkUrl] = useState<null | string>(null)
   const [linkLabel, setLinkLabel] = useState<null | string>(null)
+  const [linkContent, setLinkContent] = useState<null | string>(null)
 
   const {
     fieldProps: { schemaPath },
@@ -95,9 +96,10 @@ export function LinkEditor({ anchorElem }: { anchorElem: HTMLElement }): React.R
     setIsAutoLink(false)
     setLinkUrl(null)
     setLinkLabel(null)
+    setLinkContent(null)
     setSelectedNodes([])
     setStateData(undefined)
-  }, [setIsLink, setLinkUrl, setLinkLabel, setSelectedNodes])
+  }, [setIsLink, setLinkUrl, setLinkLabel, setLinkContent, setSelectedNodes])
 
   const $updateLinkEditor = useCallback(() => {
     const selection = $getSelection()
@@ -144,6 +146,7 @@ export function LinkEditor({ anchorElem }: { anchorElem: HTMLElement }): React.R
     if (fields?.linkType === 'custom') {
       setLinkUrl(fields?.url ?? null)
       setLinkLabel(null)
+      setLinkContent(null)
     } else {
       // internal link
       setLinkUrl(
@@ -159,6 +162,7 @@ export function LinkEditor({ anchorElem }: { anchorElem: HTMLElement }): React.R
         // Usually happens if the user removed all default fields. In this case, we let them specify the label or do not display the label at all.
         // label could be a virtual field the user added. This is useful if they want to use the link feature for things other than links.
         setLinkLabel(fields?.label ? String(fields?.label) : null)
+        setLinkContent(fields?.content ? String(fields?.content) : null)
         setLinkUrl(fields?.url ? String(fields?.url) : null)
       } else {
         const id = typeof fields.doc?.value === 'object' ? fields.doc.value.id : fields.doc?.value
@@ -171,6 +175,7 @@ export function LinkEditor({ anchorElem }: { anchorElem: HTMLElement }): React.R
           label: `${getTranslation(relatedField.labels.singular, i18n)} - ${t('lexical:link:loadingWithEllipsis', i18n)}`,
         }).replace(/<[^>]*>?/g, '')
         setLinkLabel(loadingLabel)
+        setLinkContent(loadingLabel)
 
         requests
           .get(`${config.serverURL}${config.routes.api}/${collection}/${id}`, {
@@ -244,6 +249,7 @@ export function LinkEditor({ anchorElem }: { anchorElem: HTMLElement }): React.R
       }
       setLinkUrl(null)
       setLinkLabel(null)
+      setLinkContent(null)
     }
 
     return true
@@ -354,6 +360,11 @@ export function LinkEditor({ anchorElem }: { anchorElem: HTMLElement }): React.R
               <span className="link-input__label-pure">{linkLabel}</span>
             </>
           ) : null}
+          {
+            linkContent && linkContent.length > 0 ? (
+              <>{linkContent}</>
+            ): null
+          }
 
           {editor.isEditable() && (
             <React.Fragment>

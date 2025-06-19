@@ -29,6 +29,7 @@ export type ClientProps = {
   disableAutoLinks?: 'creationOnly' | true
 } & ExclusiveLinkCollectionsProps
 
+let footnoteCounter = 1
 const toolbarGroups: ToolbarGroup[] = [
   toolbarFeatureButtonsGroupWithItems([
     {
@@ -71,7 +72,7 @@ const toolbarGroups: ToolbarGroup[] = [
             const selection = $getSelection()
             if (!$isRangeSelection(selection)) return
 
-            const insertedText = 'NewText'
+            const insertedText = `${footnoteCounter++}`
 
             // Get the current selection's end
             const anchor = selection.anchor.getNode()

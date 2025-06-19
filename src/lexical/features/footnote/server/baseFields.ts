@@ -134,11 +134,18 @@ export const getBaseFields = (
 //     })
 //   }
 
-//   baseFields.push({
-//     name: 'newTab',
-//     type: 'checkbox',
-//     label: ({ t }) => t('fields:openInNewTab'),
-//   })
+  // baseFields.push({
+  //   name: 'newTab',
+  //   type: 'checkbox',
+  //   label: ({ t }) => t('fields:openInNewTab'),
+  // })
+
+  
+  baseFields.push({
+    name: 'content',
+    type: 'text',
+    label: "Content",
+  })
 
   return baseFields
 }
