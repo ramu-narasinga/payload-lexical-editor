@@ -43,28 +43,28 @@ export const getBaseFields = (
   }
 
   const baseFields: FieldAffectingData[] = [
-    {
-      name: 'text',
-      type: 'text',
-      label: ({ t }) => t('fields:textToDisplay'),
-      required: true,
-    },
-    {
-      name: 'linkType',
-      type: 'radio',
-      admin: {
-        description: ({ t }) => t('fields:chooseBetweenCustomTextOrDocument'),
-      },
-      defaultValue: 'custom',
-      label: ({ t }) => t('fields:linkType'),
-      options: [
-        {
-          label: ({ t }) => t('fields:customURL'),
-          value: 'custom',
-        },
-      ],
-      required: true,
-    } as RadioField,
+    // {
+    //   name: 'text',
+    //   type: 'text',
+    //   label: "Content",
+    //   required: true,
+    // },
+    // {
+    //   name: 'linkType',
+    //   type: 'radio',
+    //   admin: {
+    //     description: ({ t }) => t('fields:chooseBetweenCustomTextOrDocument'),
+    //   },
+    //   defaultValue: 'custom',
+    //   label: ({ t }) => t('fields:linkType'),
+    //   options: [
+    //     {
+    //       label: ({ t }) => t('fields:customURL'),
+    //       value: 'custom',
+    //     },
+    //   ],
+    //   required: true,
+    // } as RadioField,
     {
       name: 'url',
       type: 'text',
@@ -82,7 +82,7 @@ export const getBaseFields = (
           },
         ],
       },
-      label: ({ t }) => t('fields:enterURL'),
+      label: "Content",
       required: true,
       validate: ((value: string, options) => {
         if ((options?.siblingData as LinkFields)?.linkType === 'internal') {
@@ -96,49 +96,49 @@ export const getBaseFields = (
   ]
 
   // Only display internal link-specific fields / options / conditions if there are enabled relations
-  if (enabledRelations?.length) {
-    ;(baseFields[1] as RadioField).options.push({
-      label: ({ t }) => t('fields:internalLink'),
-      value: 'internal',
-    })
-    ;(baseFields[2] as TextField).admin = {
-      condition: (_data, _siblingData) => {
-        return _siblingData.linkType !== 'internal'
-      },
-    }
+//   if (enabledRelations?.length) {
+//     ;(baseFields[1] as RadioField).options.push({
+//       label: ({ t }) => t('fields:internalLink'),
+//       value: 'internal',
+//     })
+//     ;(baseFields[2] as TextField).admin = {
+//       condition: (_data, _siblingData) => {
+//         return _siblingData.linkType !== 'internal'
+//       },
+//     }
 
-    baseFields.push({
-      name: 'doc',
-      admin: {
-        condition: (_data, _siblingData) => {
-          return _siblingData.linkType === 'internal'
-        },
-      },
-      // when admin.hidden is a function we need to dynamically call hidden with the user to know if the collection should be shown
-      type: 'relationship',
-      filterOptions:
-        !enabledCollections && !disabledCollections
-          ? ({ relationTo, user }) => {
-              const hidden = config.collections.find(({ slug }) => slug === relationTo)?.admin
-                .hidden
-              if (typeof hidden === 'function' && hidden({ user } as { user: User })) {
-                return false
-              }
-              return true
-            }
-          : null,
-      label: ({ t }) => t('fields:chooseDocumentToLink'),
-      maxDepth,
-      relationTo: enabledRelations,
-      required: true,
-    })
-  }
+//     baseFields.push({
+//       name: 'doc',
+//       admin: {
+//         condition: (_data, _siblingData) => {
+//           return _siblingData.linkType === 'internal'
+//         },
+//       },
+//       // when admin.hidden is a function we need to dynamically call hidden with the user to know if the collection should be shown
+//       type: 'relationship',
+//       filterOptions:
+//         !enabledCollections && !disabledCollections
+//           ? ({ relationTo, user }) => {
+//               const hidden = config.collections.find(({ slug }) => slug === relationTo)?.admin
+//                 .hidden
+//               if (typeof hidden === 'function' && hidden({ user } as { user: User })) {
+//                 return false
+//               }
+//               return true
+//             }
+//           : null,
+//       label: ({ t }) => t('fields:chooseDocumentToLink'),
+//       maxDepth,
+//       relationTo: enabledRelations,
+//       required: true,
+//     })
+//   }
 
-  baseFields.push({
-    name: 'newTab',
-    type: 'checkbox',
-    label: ({ t }) => t('fields:openInNewTab'),
-  })
+//   baseFields.push({
+//     name: 'newTab',
+//     type: 'checkbox',
+//     label: ({ t }) => t('fields:openInNewTab'),
+//   })
 
   return baseFields
 }

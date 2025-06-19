@@ -392,7 +392,7 @@ export function LinkEditor({ anchorElem }: { anchorElem: HTMLElement }): React.R
         className="lexical-link-edit-drawer"
         data={stateData}
         drawerSlug={drawerSlug}
-        drawerTitle={t('fields:editLink')}
+        drawerTitle={"Edit Footnote"}
         featureKey="link"
         // @ts-ignore
         handleDrawerSubmit={(fields: FormState, data: Data) => {

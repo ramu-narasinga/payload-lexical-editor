@@ -45,6 +45,7 @@ const toolbarGroups: ToolbarGroup[] = [
         return i18n.t('lexical:link:label')
       },
       onSelect: ({ editor, isActive }) => {
+        console.log("footnote triggered?")
         if (!isActive) {
           let selectedText: string | undefined
           let selectedNodes: LexicalNode[] = []
@@ -72,7 +73,7 @@ const toolbarGroups: ToolbarGroup[] = [
           editor.dispatchCommand(TOGGLE_LINK_COMMAND, null)
         }
       },
-      order: 1,
+      order: 4,
     },
   ]),
 ]
