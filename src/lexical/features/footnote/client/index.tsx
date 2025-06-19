@@ -17,7 +17,11 @@ import { LinkPlugin } from './plugins/link/index'
 import { ClientFeature, ToolbarGroup } from '@payloadcms/richtext-lexical'
 import { ExclusiveLinkCollectionsProps } from '../server/index'
 import { FootnoteIcon } from '@/lexical/ui/icons/Footnote/index'
-import { createClientFeature, getSelectedNode, toolbarFeatureButtonsGroupWithItems } from '@payloadcms/richtext-lexical/client'
+import {
+  createClientFeature,
+  getSelectedNode,
+  toolbarFeatureButtonsGroupWithItems,
+} from '@payloadcms/richtext-lexical/client'
 
 export type ClientProps = {
   defaultLinkType?: string
@@ -45,7 +49,7 @@ const toolbarGroups: ToolbarGroup[] = [
         return i18n.t('lexical:link:label')
       },
       onSelect: ({ editor, isActive }) => {
-        console.log("footnote triggered?")
+        console.log('footnote triggered?')
         if (!isActive) {
           let selectedText: string | undefined
           let selectedNodes: LexicalNode[] = []
@@ -62,6 +66,32 @@ const toolbarGroups: ToolbarGroup[] = [
           const linkFields: Partial<LinkFields> = {
             doc: null,
           }
+
+          editor.update(() => {
+            const selection = $getSelection()
+            if (!$isRangeSelection(selection)) return
+
+            const insertedText = 'NewText'
+
+            // Get the current selection's end
+            const anchor = selection.anchor.getNode()
+            const offset = selection.anchor.offset
+
+            // Collapse selection to the end
+            selection.setTextNodeRange(anchor, offset, anchor, offset)
+
+            // Insert the text
+            selection.insertText(insertedText)
+
+            // Create a new selection only around inserted text
+            const newOffset = offset + insertedText.length
+            const textNode = selection.anchor.getNode()
+
+            const newSelection = $getSelection()
+            if ($isRangeSelection(newSelection)) {
+              newSelection.setTextNodeRange(textNode, offset, textNode, newOffset)
+            }
+          })
 
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'superscript')
 
